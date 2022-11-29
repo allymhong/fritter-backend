@@ -28,17 +28,27 @@ function showResponse(response) {
 
 // Map form (by id) to the function that should be called on submit
 const formsAndHandlers = {
+  // USERS //
   'create-user': createUser,
   'delete-user': deleteUser,
   'change-username': changeUsername,
   'change-password': changePassword,
   'sign-in': signIn,
   'sign-out': signOut,
+
+  // FREETs //
   'view-all-freets': viewAllFreets,
   'view-freets-by-author': viewFreetsByAuthor,
   'create-freet': createFreet,
-  'edit-freet': editFreet,
-  'delete-freet': deleteFreet
+  // 'edit-freet': editFreet,
+  'delete-freet': deleteFreet,
+
+  // UPVOTES //
+  // 'view-all-upvotes': viewAllUpvotes,
+  'view-upvotes-by-author': viewUpvotesByAuthor,
+  'view-upvotes-by-freet': viewUpvotesByFreet,
+  'upvote-freet': createUpvote,
+  'delete-upvote': deleteUpvote,
 };
 
 // Attach handlers to forms

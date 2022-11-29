@@ -12,16 +12,15 @@ export type Freet = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: Types.ObjectId;
   dateCreated: Date;
-  content: string;
-  dateModified: Date;
+  content: string
 };
 
+// defining by concepts within (instead of MongoDB IDs) - loading all the data within concept
 export type PopulatedFreet = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: User;
   dateCreated: Date;
-  content: string;
-  dateModified: Date;
+  content: string
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -43,11 +42,6 @@ const FreetSchema = new Schema<Freet>({
   // The content of the freet
   content: {
     type: String,
-    required: true
-  },
-  // The date the freet was modified
-  dateModified: {
-    type: Date,
     required: true
   }
 });

@@ -2,6 +2,7 @@ import type {HydratedDocument, Types} from 'mongoose';
 import type {Freet} from './model';
 import FreetModel from './model';
 import UserCollection from '../user/collection';
+import UpvoteCollection from '../upvote/collection';
 
 /**
  * This files contains a class that has the functionality to explore freets
@@ -24,8 +25,7 @@ class FreetCollection {
     const freet = new FreetModel({
       authorId,
       dateCreated: date,
-      content,
-      dateModified: date
+      content
     });
     await freet.save(); // Saves freet to MongoDB
     return freet.populate('authorId');
@@ -48,7 +48,7 @@ class FreetCollection {
    */
   static async findAll(): Promise<Array<HydratedDocument<Freet>>> {
     // Retrieves freets and sorts them from most to least recent
-    return FreetModel.find({}).sort({dateModified: -1}).populate('authorId');
+    return FreetModel.find({}).sort({dateCreated: -1}).populate('authorId');
   }
 
   /**
@@ -62,20 +62,20 @@ class FreetCollection {
     return FreetModel.find({authorId: author._id}).populate('authorId');
   }
 
-  /**
-   * Update a freet with the new content
-   *
-   * @param {string} freetId - The id of the freet to be updated
-   * @param {string} content - The new content of the freet
-   * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
-   */
-  static async updateOne(freetId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
-    const freet = await FreetModel.findOne({_id: freetId});
-    freet.content = content;
-    freet.dateModified = new Date();
-    await freet.save();
-    return freet.populate('authorId');
-  }
+  // /**
+  //  * Update a freet with the new content
+  //  *
+  //  * @param {string} freetId - The id of the freet to be updated
+  //  * @param {string} content - The new content of the freet
+  //  * @return {Promise<HydratedDocument<Freet>>} - The newly updated freet
+  //  */
+  // static async updateOne(freetId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
+  //   const freet = await FreetModel.findOne({_id: freetId});
+  //   freet.content = content;
+  //   freet.dateModified = new Date();
+  //   await freet.save();
+  //   return freet.populate('authorId');
+  // }
 
   /**
    * Delete a freet with given freetId.
@@ -97,5 +97,8 @@ class FreetCollection {
     await FreetModel.deleteMany({authorId});
   }
 }
+
+
+
 
 export default FreetCollection;

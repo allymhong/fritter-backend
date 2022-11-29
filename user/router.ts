@@ -2,9 +2,11 @@ import type {Request, Response} from 'express';
 import express from 'express';
 import FreetCollection from '../freet/collection';
 import UserCollection from './collection';
+import UpvoteCollection from '../upvote/collection';
 import * as userValidator from '../user/middleware';
 import * as util from './util';
 
+// built-in from express
 const router = express.Router();
 
 /**
@@ -16,7 +18,7 @@ const router = express.Router();
  * @param {string} password - The user's password
  * @return {UserResponse} - An object with user's details
  * @throws {403} - If user is already signed in
- * @throws {400} - If username or password is  not in the correct format,
+ * @throws {400} - If username or password is not in the correct format,
  *                 or missing in the req
  * @throws {401} - If the user login credentials are invalid
  *
@@ -70,6 +72,7 @@ router.delete(
  *
  * @param {string} username - username of user
  * @param {string} password - user's password
+ * @param {Date} birthday – user's birthday
  * @return {UserResponse} - The created user
  * @throws {403} - If there is a user already logged in
  * @throws {409} - If username is already taken
@@ -82,10 +85,13 @@ router.post(
     userValidator.isUserLoggedOut,
     userValidator.isValidUsername,
     userValidator.isUsernameNotAlreadyInUse,
-    userValidator.isValidPassword
+    userValidator.isValidPassword,
+    userValidator.isValidAge
   ],
   async (req: Request, res: Response) => {
-    const user = await UserCollection.addOne(req.body.username, req.body.password);
+    // converting birthday param string to Date type
+    const birthday = new Date(req.body.birthday);
+    const user = await UserCollection.addOne(req.body.username, req.body.password, birthday);
     req.session.userId = user._id.toString();
     res.status(201).json({
       message: `Your account was created successfully. You have been logged in as ${user.username}`,
@@ -133,14 +139,18 @@ router.put(
  * @throws {403} - If the user is not logged in
  */
 router.delete(
+  // route
   '/',
+  // middleware
   [
     userValidator.isUserLoggedIn
   ],
+  // handles request & gives response
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     await UserCollection.deleteOne(userId);
     await FreetCollection.deleteMany(userId);
+    await UpvoteCollection.deleteManyByAuthorId(userId);
     req.session.userId = undefined;
     res.status(200).json({
       message: 'Your account has been deleted successfully.'

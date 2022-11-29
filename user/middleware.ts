@@ -1,12 +1,25 @@
 import type {Request, Response, NextFunction} from 'express';
 import {Types} from 'mongoose';
-import UserCollection from '../user/collection';
+import UserCollection from './collection';
+
+// Function for Calculating Current Age
+function calculateAge(birthday: Date) {
+  let today = new Date();
+  let age = today.getFullYear() - birthday.getFullYear();
+  let month = today.getMonth() - birthday.getMonth();
+  if (month < 0 || (month === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+  }
+  return age;
+}
 
 /**
  * Checks if the current session user (if any) still exists in the database, for instance,
  * a user may try to post a freet in some browser while the account has been deleted in another or
  * when a user tries to modify an account in some browser while it has been deleted in another
  */
+
+// const uses async when using collection with promises
 const isCurrentSessionUserExists = async (req: Request, res: Response, next: NextFunction) => {
   if (req.session.userId) {
     const user = await UserCollection.findOneByUserId(req.session.userId);
@@ -22,6 +35,7 @@ const isCurrentSessionUserExists = async (req: Request, res: Response, next: Nex
     }
   }
 
+  //  now you can perform the next action
   next();
 };
 
@@ -51,6 +65,22 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({
       error: {
         password: 'Password must be a nonempty string.'
+      }
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
+ * Checks if the age that User is is valid (only ages 15+) can use Fritter
+ */
+ const isValidAge = (req: Request, res: Response, next: NextFunction) => {
+  if (calculateAge(new Date(req.body.birthday)) < 15) {
+    res.status(400).json({
+      error: {
+        birthday: 'User is under 15 years old and cannot use Fritter per our guidelines.'
       }
     });
     return;
@@ -161,5 +191,6 @@ export {
   isAccountExists,
   isAuthorExists,
   isValidUsername,
-  isValidPassword
+  isValidPassword,
+  isValidAge
 };

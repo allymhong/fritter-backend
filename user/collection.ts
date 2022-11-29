@@ -2,6 +2,18 @@ import type {HydratedDocument, Types} from 'mongoose';
 import type {User} from './model';
 import UserModel from './model';
 
+// Function for Calculating Current Age
+function calculateAge(birthday: Date) {
+  let today = new Date();
+  let age = today.getFullYear() - birthday.getFullYear();
+  let month = today.getMonth() - birthday.getMonth();
+  if (month < 0 || (month === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+  }
+  return age;
+}
+
+
 /**
  * This file contains a class with functionality to interact with users stored
  * in MongoDB, including adding, finding, updating, and deleting. Feel free to add
@@ -16,12 +28,27 @@ class UserCollection {
    *
    * @param {string} username - The username of the user
    * @param {string} password - The password of the user
+   * @param {Date} birthday – The birthday of the user
    * @return {Promise<HydratedDocument<User>>} - The newly created user
    */
-  static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
+  static async addOne(username: string, password: string, birthday: Date): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
 
-    const user = new UserModel({username, password, dateJoined});
+    // checkign whether user is under 18 or not
+    // this will be after age check validator in middleware (so it will check that user is at least 15+)
+    let underage = false; // default
+    if (calculateAge(birthday) < 18) {
+      let underage = true;
+    }
+
+    // user's upvoted and downvoted Freets instantiated, empty at first
+    let upvotedFreets = new Array<String>();
+    let downvotedFreets = new Array<String>();
+
+    // also assuming user is not selfFlagged – might need to change later b/c of type of flagging
+    let selfFlagged = false;
+
+    const user = new UserModel({username, password, dateJoined, birthday, underage, upvotedFreets, downvotedFreets, selfFlagged});
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -47,7 +74,7 @@ class UserCollection {
   }
 
   /**
-   * Find a user by username (case insensitive).
+   * Find a user by username (case insensitive) and password.
    *
    * @param {string} username - The username of the user to find
    * @param {string} password - The password of the user to find
@@ -61,7 +88,7 @@ class UserCollection {
   }
 
   /**
-   * Update user's information
+   * Update user's information - cannot change birthday
    *
    * @param {string} userId - The userId of the user to update
    * @param {Object} userDetails - An object with the user's updated credentials

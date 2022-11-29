@@ -207,7 +207,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 - `400` If the freet content is empty or a stream of empty spaces
-- `413` If the freet content is more than 140 characters long
+- `413` If the freet content is more than 280 characters long
 
 #### `DELETE /api/freets/:freetId?` - Delete an existing freet
 

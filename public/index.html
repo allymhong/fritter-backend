@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <script src="/scripts/freet.js"></script>
   <script src="/scripts/user.js"></script>
+  <script src="/scripts/upvote.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -28,6 +29,10 @@
           <div>
             <label for="password">Password:</label>
             <input id="password" name="password">
+          </div>
+          <div>
+            <label for="birthday">Birthday:</label>
+            <input type="date" id="birthday" name="birthday">
           </div>
           <input type="submit" value="Create User">
         </form>
@@ -96,7 +101,49 @@
           <input type="submit" value="Create Freet">
         </form>
 
-        <form id="edit-freet">
+        <!-- <form id="view-all-upvotes">
+          <h3>View All Upvotes</h3>
+          <input type="submit" value="View All Upvotes">
+        </form> -->
+
+        <form id="view-upvotes-by-author">
+          <h3>View Upvotes By Author</h3>
+          <div>
+            <label for="author">Author:</label>
+            <input id="author" name="author">
+          </div>
+          <input type="submit" value="View Upvotes By Author">
+        </form>
+
+        <form id="view-upvotes-by-freet">
+          <h3>View Upvotes By Freet</h3>
+          <div>
+            <label for="id">Freet ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="View Upvotes By Freet">
+        </form>
+
+        <form id="upvote-freet">
+          <h3>Upvote Freet</h3>
+          <div>
+            <label for="id">Freet ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Upvote Freet">
+        </form>
+
+        <form id="delete-upvote">
+          <h3>Delete Upvote</h3>
+          <div>
+            <label for="id">Upvote ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Delete Upvote">
+        </form>
+
+
+        <!-- <form id="edit-freet">
           <h3>Edit Freet</h3>
           <div>
             <label for="id">ID:</label>
@@ -107,16 +154,17 @@
             <textarea id="content" name="content"></textarea>
           </div>
           <input type="submit" value="Edit Freet">
-        </form>
+        </form> -->
 
         <form id="delete-freet">
           <h3>Delete Freet</h3>
           <div>
-            <label for="id">ID:</label>
+            <label for="id">Freet ID:</label>
             <input id="id" name="id">
           </div>
           <input type="submit" value="Delete Freet">
         </form>
+        
       </div>
     </section>
     <section>
