@@ -98,6 +98,31 @@
             <label for="content">Content:</label>
             <textarea id="content" name="content"></textarea>
           </div>
+
+          <fieldset>
+            <legend>Self-Flagging:</legend>
+            <div>
+              <input type="checkbox" id="nudity" name="flags[]" value="nudity" />
+              <label for="nudity">Nudity</label>
+            </div>
+            <div>
+              <input type="checkbox" id="violence" name="flags[]" value="violence" />
+              <label for="violence">Violence</label>
+            </div>
+            <div>
+              <input type="checkbox" id="sensitive" name="flags[]" value="sensitive" />
+              <label for="sensitive">Sensitive Content</label>
+            </div>
+            <div>
+              <input type="checkbox" id="language" name="flags[]" value="language" />
+              <label for="language">Language</label>
+            </div>
+            <div>
+              <input type="checkbox" id="adult" name="flags[]" value="adult" />
+              <label for="adult">18+</label>
+            </div>
+          </fieldset>
+
           <input type="submit" value="Create Freet">
         </form>
 

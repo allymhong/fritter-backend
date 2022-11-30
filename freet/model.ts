@@ -1,4 +1,4 @@
-import type {Types, PopulatedDoc, Document} from 'mongoose';
+import type {Types, PopulatedDoc, Document, Mixed} from 'mongoose';
 import {Schema, model} from 'mongoose';
 import type {User} from '../user/model';
 
@@ -12,7 +12,10 @@ export type Freet = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: Types.ObjectId;
   dateCreated: Date;
-  content: string
+  content: string;
+
+  // array of all the categories this Freet can be self-flagged for
+  selfFlagged: Array<string>;
 };
 
 // defining by concepts within (instead of MongoDB IDs) - loading all the data within concept
@@ -20,7 +23,8 @@ export type PopulatedFreet = {
   _id: Types.ObjectId; // MongoDB assigns each object this ID on creation
   authorId: User;
   dateCreated: Date;
-  content: string
+  content: string;
+  selfFlagged: Array<string>;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -42,6 +46,13 @@ const FreetSchema = new Schema<Freet>({
   // The content of the freet
   content: {
     type: String,
+    required: true
+  },
+  // All the self-flags
+  selfFlagged: {
+    type: [{
+      type: String
+          }],
     required: true
   }
 });

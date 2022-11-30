@@ -68,7 +68,14 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const freet = await FreetCollection.addOne(userId, req.body.content);
+    // checking if user flagged Freet
+    console.log(req.body)
+
+    const freet = await FreetCollection.addOne(userId, req.body.content, req.body.flags);
+    // for citationLink of req.body.citations:
+      // await CitationCollection.addOne(freetId, userId, citationLink)
+    // 0 or more citations created here using req.body.citations
+    // save ID of freet above (const freet / 71)
 
     res.status(201).json({
       message: 'Your freet was created successfully.',

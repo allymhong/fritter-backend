@@ -21,9 +21,6 @@ export type User = {
   // updates everytime user upvotes or downvotes Freets
   upvotedFreets: Array<string>;
   downvotedFreets: Array<string>;
-
-  // checks out once user flags themselves
-  selfFlagged: Boolean;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -63,11 +60,6 @@ const UserSchema = new Schema({
   // Array of Freets that the User Downvoted
   downvotedFreets: {
     type: Array,
-    required: true
-  },
-  // Whether user decides to flag their accounts
-  selfFlagged: {
-    type: Boolean,
     required: true
   }
 });

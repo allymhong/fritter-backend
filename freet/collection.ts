@@ -18,14 +18,16 @@ class FreetCollection {
    *
    * @param {string} authorId - The id of the author of the freet
    * @param {string} content - The id of the content of the freet
+   * @param {Array} selfFlagged - All the flags (up to 5) selected by user when creating Freet
    * @return {Promise<HydratedDocument<Freet>>} - The newly created freet
    */
-  static async addOne(authorId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Freet>> {
+  static async addOne(authorId: Types.ObjectId | string, content: string, selfFlagged: Array<string>): Promise<HydratedDocument<Freet>> {
     const date = new Date();
     const freet = new FreetModel({
       authorId,
       dateCreated: date,
-      content
+      content,
+      selfFlagged
     });
     await freet.save(); // Saves freet to MongoDB
     return freet.populate('authorId');
@@ -49,6 +51,19 @@ class FreetCollection {
   static async findAll(): Promise<Array<HydratedDocument<Freet>>> {
     // Retrieves freets and sorts them from most to least recent
     return FreetModel.find({}).sort({dateCreated: -1}).populate('authorId');
+  }
+
+  /**
+   * Get all the unflagged Freets for underage users
+   *
+   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of unflagged freets
+   */
+   static async findAllUnflagged(): Promise<Array<HydratedDocument<Freet>>> {
+    return FreetModel.find({
+      selfFlagged:{
+        $exists: true,
+        $type: 'array',
+        $size: 0 }}).sort({dateCreated: -1}).populate('authorId');
   }
 
   /**
