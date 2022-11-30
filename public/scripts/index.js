@@ -36,11 +36,11 @@ const formsAndHandlers = {
   'sign-in': signIn,
   'sign-out': signOut,
 
-  // FREETs //
+  // FREETS //
   'view-all-freets': viewAllFreets,
   'view-freets-by-author': viewFreetsByAuthor,
+  'view-flagged-freets-by-id': viewFlaggedFreetsById,
   'create-freet': createFreet,
-  // 'edit-freet': editFreet,
   'delete-freet': deleteFreet,
 
   // UPVOTES //

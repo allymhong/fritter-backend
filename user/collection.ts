@@ -34,12 +34,10 @@ class UserCollection {
   static async addOne(username: string, password: string, birthday: Date): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
 
-    // checkign whether user is under 18 or not
+    // checking whether user is under 18 or not
     // this will be after age check validator in middleware (so it will check that user is at least 15+)
-    let underage = false; // default
-    if (calculateAge(birthday) < 18) {
-      let underage = true;
-    }
+    const age = calculateAge(birthday)
+    const underage = (age < 18)
 
     // user's upvoted and downvoted Freets instantiated, empty at first
     let upvotedFreets = new Array<String>();

@@ -44,7 +44,7 @@ class FreetCollection {
   }
 
   /**
-   * Get all the freets in the database
+   * Get ALL the freets in the database for 18+ users
    *
    * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
    */
@@ -54,7 +54,7 @@ class FreetCollection {
   }
 
   /**
-   * Get all the unflagged Freets for underage users
+   * Get all the UNFLAGGED Freets for underage users
    *
    * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of unflagged freets
    */

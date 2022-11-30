@@ -77,10 +77,40 @@ const isValidPassword = (req: Request, res: Response, next: NextFunction) => {
  * Checks if the age that User is is valid (only ages 15+) can use Fritter
  */
  const isValidAge = (req: Request, res: Response, next: NextFunction) => {
-  if (calculateAge(new Date(req.body.birthday)) < 15) {
+  if (!req.body.birthday) {
     res.status(400).json({
       error: {
+        password: 'Birthday field cannot be empty.'
+      }
+    });
+  }
+
+  const age = calculateAge(new Date(req.body.birthday));
+  if (age < 15) {
+    res.status(403).json({
+      error: {
         birthday: 'User is under 15 years old and cannot use Fritter per our guidelines.'
+      }
+    })} else if (age > 150) {
+    res.status(403).json({
+      error: {
+        birthday: 'User is a most likely a dinosaur and cannot use Fritter per our guidelines.'
+      }
+    });
+    return;
+  }
+
+  next();
+};
+
+/**
+ * Checks if User is 18+ or not. Would be UserSignedIn Validator.
+ */
+ const isUserAdult = async (req: Request, res: Response, next: NextFunction) => {
+  if ((await UserCollection.findOneByUserId(req.session.userId)).underage) {
+    res.status(403).json({
+      error: {
+        underage: 'User is under 18 years old and cannot see flagged Freets content per our guidelines.'
       }
     });
     return;
@@ -192,5 +222,6 @@ export {
   isAuthorExists,
   isValidUsername,
   isValidPassword,
-  isValidAge
+  isValidAge,
+  isUserAdult
 };

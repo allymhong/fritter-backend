@@ -50,9 +50,7 @@ const FreetSchema = new Schema<Freet>({
   },
   // All the self-flags
   selfFlagged: {
-    type: [{
-      type: String
-          }],
+    type: [{type: String}],
     required: true
   }
 });

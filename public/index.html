@@ -79,9 +79,9 @@
         </form>
 
         <form id="view-all-freets">
-            <h3>View All Freets</h3>
+            <h3>View Available Freets</h3>
             <input type="submit" value="View All Freets">
-          </form>
+        </form>
 
         <form id="view-freets-by-author">
           <h3>View Freets By Author</h3>
@@ -90,6 +90,16 @@
             <input id="author" name="author">
           </div>
           <input type="submit" value="View Freets By Author">
+        </form>
+
+        <form id="view-flagged-freets-by-id">
+          <h3>Show Flagged Freet Contents By ID</h3>
+          <p>Note: you must be logged in and 18+ to view contents of flagged Freets.</p>
+          <div>
+            <label for="id">Freet ID:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="View Flagged Freets By ID">
         </form>
 
         <form id="create-freet">
@@ -102,23 +112,23 @@
           <fieldset>
             <legend>Self-Flagging:</legend>
             <div>
-              <input type="checkbox" id="nudity" name="flags[]" value="nudity" />
+              <input type="checkbox" id="nudity" name="nudity" value="nudity" />
               <label for="nudity">Nudity</label>
             </div>
             <div>
-              <input type="checkbox" id="violence" name="flags[]" value="violence" />
+              <input type="checkbox" id="violence" name="violence" value="violence" />
               <label for="violence">Violence</label>
             </div>
             <div>
-              <input type="checkbox" id="sensitive" name="flags[]" value="sensitive" />
+              <input type="checkbox" id="sensitive" name="sensitive" value="sensitive" />
               <label for="sensitive">Sensitive Content</label>
             </div>
             <div>
-              <input type="checkbox" id="language" name="flags[]" value="language" />
+              <input type="checkbox" id="language" name="language" value="language" />
               <label for="language">Language</label>
             </div>
             <div>
-              <input type="checkbox" id="adult" name="flags[]" value="adult" />
+              <input type="checkbox" id="adult" name="adult" value="adult" />
               <label for="adult">18+</label>
             </div>
           </fieldset>
