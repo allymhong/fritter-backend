@@ -1,6 +1,5 @@
 # Fritter
-
-Build your own not-quite-[Twitter](https://twitter.com/)!
+Our own not-quite-Twitter! (Visit our Fritter MVP here!)[https://fritter-backend-orcin.vercel.app/]
 
 ## Starter Code
 
