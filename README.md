@@ -174,11 +174,26 @@ The following api routes have already been implemented for you (**Make sure to d
 
 This renders the `index.html` file that will be used to interact with the backend
 
-#### `GET /api/freets` - Get all the freets
+#### `GET /api/freets` - Get all AVAILABLE freets (personalized to user) – so underage (age 15+, but under 18) users will only get the unflagged freets (as the self-censored Freets will not be shown at all); flagged Freets will not have content visible to users. Users must retrieve Freet ID in for next API route with Freet ID to see specific contents.
 
 **Returns**
 
-- An array of all freets sorted in descending order by date modified
+- An array of all freets sorted in descending order by date created
+
+#### `GET /api/freets/:freetId?` - View flagged Freets by Freet ID (wanted to be consistent with isFreetExists checkers, and Deleting Freets)
+
+**Body**
+
+- `freetID` _{string}_ – the Freet ID of the flagged Freet to be shown
+
+**Returns**
+
+- View the raw contents of a flagged Freet by Freet ID
+
+**Throws**
+
+- Should throw `400` if `FreetID` is not given, but at the moment just returns all Freets
+- `404` if `Freet ID` is not found
 
 #### `GET /api/freets?author=USERNAME` - Get freets by author
 
@@ -200,7 +215,7 @@ This renders the `index.html` file that will be used to interact with the backen
 **Returns**
 
 - A success message
-- A object with the created freet
+- A object with the created freet (raw, will show content)
 
 **Throws**
 
@@ -219,25 +234,6 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not logged in
 - `403` if the user is not the author of the freet
 - `404` if the freetId is invalid
-
-#### `PUT /api/freets/:freetId?` - Update an existing freet
-
-**Body**
-
-- `content` _{string}_ - The new content of the freet
-
-**Returns**
-
-- A success message
-- An object with the updated freet
-
-**Throws**
-
-- `403` if the user is not logged in
-- `404` if the freetId is invalid
-- `403` if the user is not the author of the freet
-- `400` if the new freet content is empty or a stream of empty spaces
-- `413` if the new freet content is more than 140 characters long
 
 #### `POST /api/users/session` - Sign in user
 
@@ -267,12 +263,13 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if user is not logged in
 
-#### `POST /api/users` - Create an new user account
+#### `POST /api/users` - Create a new user account
 
 **Body**
 
 - `username` _{string}_ - The user's username
 - `password` _{string}_ - The user's password
+- `birthday` _{string}_ - The user's birthday
 
 **Returns**
 
@@ -312,3 +309,62 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+#### `GET /api/upvotes` - Gets all the upvotes
+
+**Returns**
+
+– An array of all the upvotes in order by date created
+
+#### `GET /api/upvotes?authorId=id` - Gets upvotes by author provided
+
+**Returns**
+
+- An array of upvotes created by author with authorId
+
+**Throws**
+
+- `400` if authorId is not given
+- `404` if no user has given authorId
+
+#### `GET /api/upvotes?freetId=id`
+
+**Returns**
+
+- An array of upvotes created for freet with freetId
+
+**Throws**
+
+- `400` - If freetId is not given
+- `404` - If no freet has given freetId
+
+
+#### `POST /api/upvotes/:freetId`
+
+**Body**
+
+- `freetId` _{string}_ - The ID of freet being upvoted
+
+**Returns**
+
+- The created Upvote
+
+**Throws**
+
+- `403` - if the user is not logged in
+
+
+#### `DELETE /api/upvotes/:freetId`
+
+**Body**
+
+- `upvoteId` _{string}_ - The ID of upvote being deleted
+
+**Returns**
+
+- A string - success message
+
+**Throws**
+
+- `403` - if the user is not logged in or is not the author of the upvote
+- `404` - if the upvoteId is not valid
