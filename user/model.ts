@@ -18,9 +18,8 @@ export type User = {
   birthday: Date;
   underage: Boolean;
 
-  // updates everytime user upvotes or downvotes Freets
+  // updates everytime user upvotes Freets
   upvotedFreets: Array<string>;
-  downvotedFreets: Array<string>;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -54,11 +53,6 @@ const UserSchema = new Schema({
   },
   // Array of Freets that the User Upvoted
   upvotedFreets: {
-    type: Array,
-    required: true
-  },
-  // Array of Freets that the User Downvoted
-  downvotedFreets: {
     type: Array,
     required: true
   }

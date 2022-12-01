@@ -9,8 +9,6 @@ import * as util from './util';
 
 const router = express.Router();
 
-// working underage filter? need a personalized feed
-
 /**
  * Get all AVAILABLE freets (personalized to user)
  * – so underage (age 15+, but under 18) users 
@@ -115,7 +113,7 @@ router.get(
 );
 
 /**
- * Create a new freet.
+ * Create a new freet – including Citations!
  *
  * @name POST /api/freets
  *
@@ -148,7 +146,7 @@ router.post(
 
     const freet = await FreetCollection.addOne(userId, req.body.content, flag_responses);
     // for citationLink of req.body.citations:
-      // await CitationCollection.addOne(freetId, userId, citationLink)
+      // await CitationCollection.addOne(freetId, userId, citationLink, citationTitle, citationAuthor)
     // 0 or more citations created here using req.body.citations
     // save ID of freet above (const freet / 71)
 

@@ -39,14 +39,13 @@ class UserCollection {
     const age = calculateAge(birthday)
     const underage = (age < 18)
 
-    // user's upvoted and downvoted Freets instantiated, empty at first
+    // user's upvoted Freets instantiated, empty at first
     let upvotedFreets = new Array<String>();
-    let downvotedFreets = new Array<String>();
 
     // also assuming user is not selfFlagged – might need to change later b/c of type of flagging
     let selfFlagged = false;
 
-    const user = new UserModel({username, password, dateJoined, birthday, underage, upvotedFreets, downvotedFreets, selfFlagged});
+    const user = new UserModel({username, password, dateJoined, birthday, underage, upvotedFreets, selfFlagged});
     await user.save(); // Saves user to MongoDB
     return user;
   }
