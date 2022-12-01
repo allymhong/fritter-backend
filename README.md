@@ -1,5 +1,5 @@
 # Fritter
-Our own not-quite-Twitter! (Visit our Fritter MVP here: [https://fritter-backend-orcin.vercel.app/
+Our own not-quite-Twitter! Visit our Fritter MVP here: https://fritter-backend-orcin.vercel.app/
 
 ## Starter Code
 
